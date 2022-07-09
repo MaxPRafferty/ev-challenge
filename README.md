@@ -3,7 +3,7 @@
 ## Design Considerations
 
 - Language: JavaScript. While the benefits of type safety in a large repository are undeniable, for a toy application like this it is unlikely that the benefits would ever be felt, while increasing build complexity. Commiting to JS upfront allows us to use create-react-app out of the box, which is a big time saver, and will give us maximum flexibility when selecting additonal libraries. If we were ever to need TS in the future, we can simply eject the CRA app and drop in the TS compiler, as the language is a superset.
-- Hosting: For convienience, we will simply commit our build artifacts and host out of GitHub directly. While comitting artifacts is an anti-pattern, in this case convienence wins out over concerns around "stale artifacts".
+- Hosting: For convienience, we will simply commit our build artifacts and host out of GitHub Pages directly. While comitting artifacts is an anti-pattern, in this case convienence wins out over concerns around "stale artifacts". Note that this requires copying the contents of /build into /docs.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
