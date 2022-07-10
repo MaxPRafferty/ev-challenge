@@ -26,33 +26,57 @@ const IS_PRODUCTION = !!window.EV_CONSTANTS.isProd;
 const GENERIC_ERROR =
     "Unexpected Error. Please refresh the page and try again.";
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const renderApplication = () => {
+    root.render(
+        <React.StrictMode>
+            <App
+                applicationError={applicationError}
+                production={IS_PRODUCTION}
+                data={data}
+                dataLength={Object.keys(data)}
+                trips={trips}
+                inputs={inputs}
+            />
+        </React.StrictMode>
+    );
+};
+
 const fetchAndNormalize = (path, order) => {
     fetch(path)
         .then((res) => res.text())
-        .then((data) => {
-            console.log(data);
-            parse(data, {}, (err, records) => {
-                if (err) {
-                    console.error(err);
-                    applicationError = GENERIC_ERROR;
-                    return;
-                }
+        .then((rowData) => {
+            return new Promise((s, f) => {
+                parse(rowData, {}, (err, records) => {
+                    if (err) {
+                        f(err);
+                        return;
+                    }
 
-                const [transformErr, result] = CSVObjectify(records);
-                if (transformErr) {
-                    console.error(transformErr);
-                    applicationError = GENERIC_ERROR;
-                    return;
-                }
-                console.log(JSON.stringify(result));
-                /* MPR, 2022/7/10: we could append order if we were expecting further data
-                 * but that will never happen in this application */
-                order = result.order;
-                data = { ...data, ...result.data };
-                console.log(`Data: ${JSON.stringify(data)}`);
+                    const [transformErr, result] = CSVObjectify(records);
+                    if (transformErr) {
+                        f(err);
+                        return;
+                    }
+                    /* MPR, 2022/7/10: we could append order if we were expecting further data
+                     * but that will never happen in this application */
+                    order = result.order;
+                    data = { ...data, ...result.data };
+                    s();
+                });
             });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            applicationError = GENERIC_ERROR;
+            console.error(err);
+        })
+        .finally(() => {
+            /* MPR 2022/7/10: A consequence of our light state management - we must fully
+             * and manually rerender upon changes to global data. For an application of this
+             * size, however, the effect is imperceptible */
+            renderApplication();
+        });
 };
 
 /* MPR, 2022/7/9: intentionally not using await to not block render during hydration */
@@ -62,19 +86,7 @@ fetchAndNormalize(
     inputs
 );
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-    <React.StrictMode>
-        <App
-            applicationError={applicationError}
-            production={IS_PRODUCTION}
-            data={data}
-            dataLength={Object.keys(data)}
-            trips={trips}
-            inputs={inputs}
-        />
-    </React.StrictMode>
-);
+renderApplication();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
