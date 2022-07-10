@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { parse } from "csv-parse";
+
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -23,7 +25,17 @@ const IS_PRODUCTION = !!window.EV_CONSTANTS.isProd;
 /* MPR, 2022/7/9: intentionally not using await to not block render during hydration */
 fetch(`${IS_PRODUCTION ? "/ev-challenge" : ""}${tripsPath}`)
     .then((res) => res.text())
-    .then((data) => console.log(data))
+    .then((data) => {
+        console.log(data);
+        parse(data, {}, (err, records) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            console.log(JSON.stringify(records));
+        });
+    })
     .catch((err) => console.log(err));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
