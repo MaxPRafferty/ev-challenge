@@ -43,8 +43,8 @@ const renderApplication = () => {
     );
 };
 
-const fetchAndNormalize = (path, order) => {
-    fetch(path)
+const fetchAndNormalize = (path) => {
+    return fetch(path)
         .then((res) => res.text())
         .then((rowData) => {
             return new Promise((s, f) => {
@@ -59,32 +59,43 @@ const fetchAndNormalize = (path, order) => {
                         f(err);
                         return;
                     }
-                    /* MPR, 2022/7/10: we could append order if we were expecting further data
-                     * but that will never happen in this application */
-                    order = result.order;
-                    data = { ...data, ...result.data };
-                    s();
+                    s(result);
                 });
             });
-        })
-        .catch((err) => {
-            applicationError = GENERIC_ERROR;
-            console.error(err);
-        })
-        .finally(() => {
-            /* MPR 2022/7/10: A consequence of our light state management - we must fully
-             * and manually rerender upon changes to global data. For an application of this
-             * size, however, the effect is imperceptible */
-            renderApplication();
         });
 };
 
 /* MPR, 2022/7/9: intentionally not using await to not block render during hydration */
-fetchAndNormalize(`${IS_PRODUCTION ? "/ev-challenge" : ""}${tripsPath}`, trips);
-fetchAndNormalize(
-    `${IS_PRODUCTION ? "/ev-challenge" : ""}${inputsPath}`,
-    inputs
-);
+fetchAndNormalize(`${IS_PRODUCTION ? "/ev-challenge" : ""}${tripsPath}`)
+    .then((result) => {
+        trips = result.order;
+        data = { ...data, ...result.data };
+    })
+    .catch((err) => {
+        applicationError = GENERIC_ERROR;
+        console.error(err);
+    })
+    .finally(() => {
+        /* MPR 2022/7/10: A consequence of our light state management - we must fully
+         * and manually rerender upon changes to global data. For an application of this
+         * size, however, the effect is imperceptible */
+        renderApplication();
+    });
+fetchAndNormalize(`${IS_PRODUCTION ? "/ev-challenge" : ""}${inputsPath}`)
+    .then((result) => {
+        inputs = result.order;
+        data = { ...data, ...result.data };
+    })
+    .catch((err) => {
+        applicationError = GENERIC_ERROR;
+        console.error(err);
+    })
+    .finally(() => {
+        /* MPR 2022/7/10: A consequence of our light state management - we must fully
+         * and manually rerender upon changes to global data. For an application of this
+         * size, however, the effect is imperceptible */
+        renderApplication();
+    });
 
 renderApplication();
 
