@@ -6,6 +6,10 @@
   font-size: 20px;
 }
 
+.App > div {
+  height: calc(var(--vh, 1vh) * 100) !important;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -72,7 +76,9 @@
 @media (orientation: portrait) {
   .page {
     width: 95vw;
+    height: calc(var(--vh, 1vh) * 98);
     font-size: 16px;
+    min-height: calc(var(--vh, 1vh) * 98);
 
   }
   .hero {

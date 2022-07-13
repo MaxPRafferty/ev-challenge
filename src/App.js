@@ -90,6 +90,7 @@ function App({ trips, inputs, data }) {
             <ReactPageScroller
                 customPageNumber={currentPage}
                 pageOnChange={setCurrentPage}
+                className="scroll-wrapper"
             >
                 <header className="App-header page">
                     <h1>Electric Vehicle Performance Comparison</h1>

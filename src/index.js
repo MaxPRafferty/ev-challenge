@@ -26,6 +26,10 @@ const IS_PRODUCTION = !!window.EV_CONSTANTS.isProd;
 const GENERIC_ERROR =
     "Unexpected Error. Please refresh the page and try again.";
 
+/* small hack to make view height units consistent in mobile chrome, see https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const renderApplication = () => {
