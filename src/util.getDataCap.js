@@ -13,7 +13,11 @@ const getDataCap = (data) => {
             },
             [-1, -1]
         );
-        result = max + max / 10;
+        if (min >= max) {
+            err = new Error("Chart scale out of bounds");
+        } else {
+            result = max + max / 10;
+        }
     } catch (error) {
         err = error;
     }

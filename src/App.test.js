@@ -59,7 +59,7 @@ const MOCK_DATA = {
     },
 };
 
-test("renders learn react link", () => {
+test("renders EV comparison page", () => {
     render(<App data={MOCK_DATA} trips={MOCK_TRIP} inputs={MOCK_INPUTS} />);
     const linkElement = screen.getByText(
         /Electric Vehicle Performance Comparison/i

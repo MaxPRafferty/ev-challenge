@@ -16,6 +16,18 @@ module.exports = {
                     process: "process/browser",
                 }),
             ],
+            /* supresses non-actionable sourcemap warnings from other packages. see
+             * https://github.com/facebook/create-react-app/discussions/11767 */
+            ignoreWarnings: [
+                function ignoreSourcemapsloaderWarnings(warning) {
+                    return (
+                        warning.module &&
+                        warning.module.resource.includes("node_modules") &&
+                        warning.details &&
+                        warning.details.includes("source-map-loader")
+                    );
+                },
+            ],
         },
     },
 };
