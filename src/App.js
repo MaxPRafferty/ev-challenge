@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactPageScroller from "react-page-scroller";
 import logo from "./logo.svg";
 import "./App.css";
 import Compare from "./Compare";
@@ -16,6 +17,7 @@ import getVehicleByTrip from "./util.getVehicleByTrip";
 import TripSelector from "./TripSelector";
 
 function App({ trips, inputs, data }) {
+    const [currentPage, setCurrentPage] = useState(0);
     const [selectedTrip, setSelectedTrip] = useState(
         trips.length ? trips[0] : null
     );
@@ -57,32 +59,41 @@ function App({ trips, inputs, data }) {
     const [scaleCostErr, scaleCost] = getDataCap(gasCostData);
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>Electric Vehicle Performance Comparison</h1>
-                <div>Please select a vehicle to continue</div>
-                <div>
-                    <TripSelector
-                        trips={trips}
-                        data={data}
-                        selectedVehicle={selectedTrip}
-                        onSelect={setSelectedTrip}
+            <ReactPageScroller
+                customPageNumber={currentPage}
+                pageOnChange={setCurrentPage}
+            >
+                <header className="App-header page">
+                    <h1>Electric Vehicle Performance Comparison</h1>
+                    <div>Please select a vehicle to continue</div>
+                    <div>
+                        <TripSelector
+                            trips={trips}
+                            data={data}
+                            selectedVehicle={selectedTrip}
+                            onSelect={setSelectedTrip}
+                        />
+                    </div>
+                </header>
+                <div className="page">
+                    <MyTrips scale={mileScale} evData={milesDriven} />
+                </div>
+                <div className="page">
+                    <MyTrips
+                        scale={scale}
+                        evData={evData}
+                        gasData={gasData}
+                    ></MyTrips>
+                </div>
+                <div className="page">
+                    <MyTrips
+                        scale={scaleCost}
+                        evData={evCostData}
+                        gasData={gasCostData}
                     />
                 </div>
-            </header>
-            <div>
-                <MyTrips scale={mileScale} evData={milesDriven} />
-                <MyTrips
-                    scale={scale}
-                    evData={evData}
-                    gasData={gasData}
-                ></MyTrips>
-                <MyTrips
-                    scale={scaleCost}
-                    evData={evCostData}
-                    gasData={gasCostData}
-                />
-            </div>
-            <footer>Max Rafferty, 2022</footer>
+                <footer className="page">Max Rafferty, 2022</footer>
+            </ReactPageScroller>
         </div>
     );
 }
