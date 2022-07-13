@@ -1,6 +1,6 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
+  "name": "ev-comparison",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.0.0-alpha.7",
@@ -28,7 +28,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "deploy": "npm run build && ./scripts/deploy.sh && git push origin main",
+    "deploy": "npm run build && ./scripts/deploy.sh",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
