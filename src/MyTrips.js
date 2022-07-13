@@ -30,6 +30,18 @@ import { months } from "./constants.types";
             */
 
 const MyTrips = ({ scale, evData, gasData }) => {
+    let evBars = null;
+    let gasBars = null;
+    let colorScale = [];
+    if (evData && evData.length) {
+        evBars = <VictoryBar data={evData} />;
+        colorScale.push("tomato");
+    }
+    if (gasData && gasData.length) {
+        gasBars = <VictoryBar data={gasData} />;
+        colorScale.push("gold");
+    }
+
     return (
         <>
             Trip Data
@@ -41,10 +53,10 @@ const MyTrips = ({ scale, evData, gasData }) => {
                     <VictoryGroup
                         offset={6}
                         style={{ data: { width: 6 } }}
-                        colorScale={["tomato", "gold"]}
+                        colorScale={colorScale}
                     >
-                        <VictoryBar data={evData} />
-                        <VictoryBar data={gasData} />
+                        {evBars}
+                        {gasBars}
                     </VictoryGroup>
                 </VictoryChart>
             </div>
