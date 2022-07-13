@@ -16,6 +16,7 @@ import {
 import { inputKeys, tripKeys } from "./constants.types";
 import getVehicleByTrip from "./util.getVehicleByTrip";
 import TripSelector from "./TripSelector";
+import Arrow from "./icon.arrow";
 
 const sumData = (dataset) => {
     return dataset.reduce((a, v) => {
@@ -92,7 +93,7 @@ function App({ trips, inputs, data }) {
                             aria-label="continue"
                             onClick={() => setCurrentPage(currentPage + 1)}
                         >
-                            ⌄
+                            <Arrow />
                         </Fab>
                     </div>
                 </header>
@@ -126,7 +127,7 @@ function App({ trips, inputs, data }) {
                             aria-label="continue"
                             onClick={() => setCurrentPage(currentPage + 1)}
                         >
-                            ⌄
+                            <Arrow />
                         </Fab>
                     </div>
                 </div>
@@ -179,7 +180,7 @@ function App({ trips, inputs, data }) {
                             aria-label="continue"
                             onClick={() => setCurrentPage(currentPage + 1)}
                         >
-                            ⌄
+                            <Arrow />
                         </Fab>
                     </div>
                 </div>
@@ -216,7 +217,7 @@ function App({ trips, inputs, data }) {
                             aria-label="continue"
                             onClick={() => setCurrentPage(currentPage + 1)}
                         >
-                            ⌄
+                            <Arrow />
                         </Fab>
                     </div>
                 </div>
