@@ -172,8 +172,7 @@ function App({ trips, inputs, data }) {
                         gasLabel="Gasoline"
                     ></MyTrips>
                     <p className="hero">
-                        The environment would like to thank you! By driving
-                        electric, you've kept{" "}
+                        By driving electric, you've kept{" "}
                         <b>
                             {Math.floor(sumData(gasData) - sumData(evData))}lbs
                         </b>{" "}
