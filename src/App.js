@@ -24,14 +24,12 @@ const sumData = (dataset) => {
 
 function App({ trips, inputs, data }) {
     const [currentPage, setCurrentPage] = useState(0);
-    const [selectedTrip, setSelectedTrip] = useState(
-        trips.length ? trips[0] : null
-    );
+    const [selectedTrip, setSelectedTrip] = useState(null);
 
     if (trips.length && selectedTrip === null) {
         setSelectedTrip(trips[0]);
     }
-    if (!inputs.length || !trips.length) {
+    if (selectedTrip == null || !inputs.length || !trips.length) {
         return <>loading...</>;
     }
 
@@ -79,7 +77,7 @@ function App({ trips, inputs, data }) {
                 <header className="App-header page">
                     <h1>Electric Vehicle Performance Comparison</h1>
                     <div>Please select a vehicle to continue</div>
-                    <div>
+                    <div className="selector-wrapper">
                         <TripSelector
                             trips={trips}
                             data={data}
@@ -96,9 +94,9 @@ function App({ trips, inputs, data }) {
                     </p>
                     <MyTrips scale={mileScale} evData={milesDriven} />
                     <p className="hero">
-                        You drove {sumData(milesDriven)} miles last year! Lets
-                        take a look at what that meant for the environment...
-                        and your wallet!
+                        You drove <b>{sumData(milesDriven)} miles</b> last year!
+                        Lets take a look at what that meant for the
+                        environment... and your wallet!
                     </p>
                 </div>
                 <div className="page">
@@ -118,10 +116,17 @@ function App({ trips, inputs, data }) {
                     <p className="hero">
                         The environment would like to thank you! By driving
                         electric, you've kept{" "}
-                        {Math.floor(sumData(gasData) - sumData(evData))}lbs of
-                        CO2 out of the air! Thats a reduction of{" "}
-                        {Math.floor((sumData(evData) / sumData(gasData)) * 100)}
-                        %!
+                        <b>
+                            {Math.floor(sumData(gasData) - sumData(evData))}lbs
+                        </b>{" "}
+                        of CO2 out of the air! Thats a reduction of{" "}
+                        <b>
+                            {Math.floor(
+                                (sumData(evData) / sumData(gasData)) * 100
+                            )}
+                            %
+                        </b>
+                        !
                     </p>
                     <p>
                         Good news for mother nature, but lets see what that
@@ -136,8 +141,13 @@ function App({ trips, inputs, data }) {
                         gasData={gasCostData}
                     />
                     <p className="hero">
-                        You saved $
-                        {Math.floor(sumData(gasCostData) - sumData(evCostData))}{" "}
+                        You saved{" "}
+                        <b>
+                            $
+                            {Math.floor(
+                                sumData(gasCostData) - sumData(evCostData)
+                            )}
+                        </b>{" "}
                         driving electric last year!
                     </p>
                 </div>

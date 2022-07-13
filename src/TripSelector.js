@@ -7,14 +7,17 @@ const TripSelector = ({ trips, data, onSelect, selectedVehicle }) => {
             data[k][tripKeys.model]
         }`;
         return (
-            <Fab
-                color={k === selectedVehicle ? "primary" : "secondary"}
-                aria-label={vehicleName}
-                variant="extended"
-                onClick={() => onSelect(k)}
-            >
-                {vehicleName}
-            </Fab>
+            <span className="trip-button">
+                <Fab
+                    color={k === selectedVehicle ? "primary" : "secondary"}
+                    aria-label={vehicleName}
+                    variant="extended"
+                    onClick={() => onSelect(k)}
+                    key={vehicleName}
+                >
+                    {vehicleName}
+                </Fab>
+            </span>
         );
     });
     return <>{buttons}</>;
