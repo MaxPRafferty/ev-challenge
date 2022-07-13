@@ -12,21 +12,34 @@ import {
     POUNDS_C02_PER_GAL,
     POUNDS_C02_PER_KWH,
 } from "./constants.averages";
-import { inputKeys } from "./constants.types";
+import { inputKeys, tripKeys } from "./constants.types";
 import getVehicleByTrip from "./util.getVehicleByTrip";
 import TripSelector from "./TripSelector";
+
+const sumData = (dataset) => {
+    return dataset.reduce((a, v) => {
+        return a + v.y;
+    }, 0);
+};
 
 function App({ trips, inputs, data }) {
     const [currentPage, setCurrentPage] = useState(0);
     const [selectedTrip, setSelectedTrip] = useState(
         trips.length ? trips[0] : null
     );
+
     if (trips.length && selectedTrip === null) {
         setSelectedTrip(trips[0]);
     }
     if (!inputs.length || !trips.length) {
         return <>loading...</>;
     }
+
+    const onVehicleSelect = (vehicleId) => {
+        setSelectedTrip(vehicleId);
+        setCurrentPage(1);
+    };
+
     const [tripErr, tripVehicle] = getVehicleByTrip(data[selectedTrip], data);
     const gasAudi =
         data[
@@ -71,26 +84,62 @@ function App({ trips, inputs, data }) {
                             trips={trips}
                             data={data}
                             selectedVehicle={selectedTrip}
-                            onSelect={setSelectedTrip}
+                            onSelect={onVehicleSelect}
                         />
                     </div>
                 </header>
                 <div className="page">
+                    <p className="intro">
+                        Here is your last year driving your{" "}
+                        {data[selectedTrip][tripKeys.make]}{" "}
+                        {data[selectedTrip][tripKeys.model]}
+                    </p>
                     <MyTrips scale={mileScale} evData={milesDriven} />
+                    <p className="hero">
+                        You drove {sumData(milesDriven)} miles last year! Lets
+                        take a look at what that meant for the environment...
+                        and your wallet!
+                    </p>
                 </div>
                 <div className="page">
+                    <p className="intro">
+                        Comparing your emissions to a gasoline vehicle...
+                    </p>
+                    <p className="sub">
+                        *calculations assume 100% electric driving. Hybrid modes
+                        will increase emissions.
+                    </p>
+                    <p className="sub">**comparing against a 2019 Audi Q7</p>
                     <MyTrips
                         scale={scale}
                         evData={evData}
                         gasData={gasData}
                     ></MyTrips>
+                    <p className="hero">
+                        The environment would like to thank you! By driving
+                        electric, you've kept{" "}
+                        {Math.floor(sumData(gasData) - sumData(evData))}lbs of
+                        CO2 out of the air! Thats a reduction of{" "}
+                        {Math.floor((sumData(evData) / sumData(gasData)) * 100)}
+                        %!
+                    </p>
+                    <p>
+                        Good news for mother nature, but lets see what that
+                        looks like for your bottom line...
+                    </p>
                 </div>
                 <div className="page">
+                    <p className="intro">Look at these savings!</p>
                     <MyTrips
                         scale={scaleCost}
                         evData={evCostData}
                         gasData={gasCostData}
                     />
+                    <p className="hero">
+                        You saved $
+                        {Math.floor(sumData(gasCostData) - sumData(evCostData))}{" "}
+                        driving electric last year!
+                    </p>
                 </div>
                 <footer className="page">Max Rafferty, 2022</footer>
             </ReactPageScroller>
