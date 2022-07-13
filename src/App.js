@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import ReactPageScroller from "react-page-scroller";
 import { Fab } from "@mui/material";
-import logo from "./logo.svg";
 import "./App.css";
-import Compare from "./Compare";
 import MyTrips from "./MyTrips";
 import tripToChartSet from "./util.tripToChartSet";
 import getDataCap from "./util.getDataCap";
@@ -70,6 +68,23 @@ function App({ trips, inputs, data }) {
         selectedEV[inputKeys.mpkwh]
     );
     const [scaleCostErr, scaleCost] = getDataCap(gasCostData);
+    const hasError =
+        scaleCostErr ||
+        evCostErr ||
+        gasCostErr ||
+        scaleErr ||
+        evErr ||
+        gasErr ||
+        mileScaleErr ||
+        milesErr ||
+        tripErr;
+    if (hasError) {
+        /* MPR, 2022/7/13: We collect all of these errors so that we can handle each
+         * case separately if needed, blocking only relevant parts of the UI. However
+         * for a simple application like this we'll just report the error and move on
+         */
+        console.error(hasError);
+    }
     return (
         <div className="App">
             <ReactPageScroller

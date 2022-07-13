@@ -2,13 +2,9 @@ import {
     VictoryBar,
     VictoryChart,
     VictoryLegend,
-    VictoryAxis,
     VictoryGroup,
-    VictoryLine,
     VictoryTheme,
-    VictoryStack,
 } from "victory";
-import { months } from "./constants.types";
 
 const MyTrips = ({ scale, evData, gasData, evLabel, gasLabel }) => {
     let evBars = null;
