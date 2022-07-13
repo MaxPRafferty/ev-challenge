@@ -92,7 +92,11 @@ function App({ trips, inputs, data }) {
                         {data[selectedTrip][tripKeys.make]}{" "}
                         {data[selectedTrip][tripKeys.model]}
                     </p>
-                    <MyTrips scale={mileScale} evData={milesDriven} />
+                    <MyTrips
+                        scale={mileScale}
+                        evData={milesDriven}
+                        evLabel="Miles Driven"
+                    />
                     <p className="hero">
                         You drove <b>{sumData(milesDriven)} miles</b> last year!
                         Lets take a look at what that meant for the
@@ -111,7 +115,9 @@ function App({ trips, inputs, data }) {
                     <MyTrips
                         scale={scale}
                         evData={evData}
+                        evLabel="Electric"
                         gasData={gasData}
+                        gasLabel="Gasoline"
                     ></MyTrips>
                     <p className="hero">
                         The environment would like to thank you! By driving
@@ -138,7 +144,9 @@ function App({ trips, inputs, data }) {
                     <MyTrips
                         scale={scaleCost}
                         evData={evCostData}
+                        evLabel="Electric"
                         gasData={gasCostData}
+                        gasLabel="Gasoline"
                     />
                     <p className="hero">
                         You saved{" "}
