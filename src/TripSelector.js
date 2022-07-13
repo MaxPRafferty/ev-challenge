@@ -9,7 +9,7 @@ const TripSelector = ({ trips, data, onSelect, selectedVehicle }) => {
         return (
             <span className="trip-button" key={vehicleName}>
                 <Fab
-                    color={k === selectedVehicle ? "primary" : "secondary"}
+                    color={k === selectedVehicle ? "primary" : "neutral"}
                     aria-label={vehicleName}
                     variant="extended"
                     onClick={() => onSelect(k)}
