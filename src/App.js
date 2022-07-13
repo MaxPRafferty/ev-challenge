@@ -13,6 +13,7 @@ import {
 } from "./constants.averages";
 import { inputKeys } from "./constants.types";
 import getVehicleByTrip from "./util.getVehicleByTrip";
+import TripSelector from "./TripSelector";
 
 function App({ trips, inputs, data }) {
     const [selectedTrip, setSelectedTrip] = useState(
@@ -37,7 +38,6 @@ function App({ trips, inputs, data }) {
         POUNDS_C02_PER_GAL,
         gasAudi[inputKeys.mpg]
     );
-    debugger;
     const [evErr, evData] = tripToChartSet(
         data[selectedTrip],
         POUNDS_C02_PER_KWH,
@@ -59,6 +59,15 @@ function App({ trips, inputs, data }) {
         <div className="App">
             <header className="App-header">
                 <h1>Electric Vehicle Performance Comparison</h1>
+                <div>Please select a vehicle to continue</div>
+                <div>
+                    <TripSelector
+                        trips={trips}
+                        data={data}
+                        selectedVehicle={selectedTrip}
+                        onSelect={setSelectedTrip}
+                    />
+                </div>
             </header>
             <div>
                 <MyTrips scale={mileScale} evData={milesDriven} />
