@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactPageScroller from "react-page-scroller";
+import { Fab } from "@mui/material";
 import logo from "./logo.svg";
 import "./App.css";
 import Compare from "./Compare";
@@ -85,8 +86,26 @@ function App({ trips, inputs, data }) {
                             onSelect={onVehicleSelect}
                         />
                     </div>
+
+                    <div className="continue">
+                        <Fab
+                            aria-label="continue"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            ⌄
+                        </Fab>
+                    </div>
                 </header>
                 <div className="page">
+                    <div className="back">
+                        <Fab
+                            aria-label="back"
+                            size="small"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            ^
+                        </Fab>
+                    </div>
                     <p className="intro">
                         Here is your last year driving your{" "}
                         {data[selectedTrip][tripKeys.make]}{" "}
@@ -102,8 +121,25 @@ function App({ trips, inputs, data }) {
                         Lets take a look at what that meant for the
                         environment... and your wallet!
                     </p>
+                    <div className="continue">
+                        <Fab
+                            aria-label="continue"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            ⌄
+                        </Fab>
+                    </div>
                 </div>
                 <div className="page">
+                    <div className="back">
+                        <Fab
+                            aria-label="back"
+                            size="small"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            ^
+                        </Fab>
+                    </div>
                     <p className="intro">
                         Comparing your emissions to a gasoline vehicle...
                     </p>
@@ -138,8 +174,25 @@ function App({ trips, inputs, data }) {
                         Good news for mother nature, but lets see what that
                         looks like for your bottom line...
                     </p>
+                    <div className="continue">
+                        <Fab
+                            aria-label="continue"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            ⌄
+                        </Fab>
+                    </div>
                 </div>
                 <div className="page">
+                    <div className="back">
+                        <Fab
+                            aria-label="back"
+                            size="small"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            ^
+                        </Fab>
+                    </div>
                     <p className="intro">Look at these savings!</p>
                     <MyTrips
                         scale={scaleCost}
@@ -158,8 +211,28 @@ function App({ trips, inputs, data }) {
                         </b>{" "}
                         driving electric last year!
                     </p>
+                    <div className="continue">
+                        <Fab
+                            aria-label="continue"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            ⌄
+                        </Fab>
+                    </div>
                 </div>
-                <footer className="page">Max Rafferty, 2022</footer>
+                <footer className="page">
+                    <div className="back">
+                        <Fab
+                            aria-label="back"
+                            size="small"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            ^
+                        </Fab>
+                    </div>
+                    <p className="outro">Thank you for the opportunity!</p>
+                    <p className="outro">Max Rafferty, 2022</p>
+                </footer>
             </ReactPageScroller>
         </div>
     );
